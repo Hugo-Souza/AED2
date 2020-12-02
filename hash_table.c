@@ -1,7 +1,7 @@
 /*
 Hugo da Silva e Souza - 761211
 Algoritmo para criação de agenda de contatos usando hash table.
-30/11/2020
+02/12/2020
 */
 
 // Bibliotecas
@@ -80,6 +80,17 @@ void insert_HT(Chave chave, Valor valor){
     }
 }
 
+// Função que altera o valor do noh da tabela
+void change_HT(Chave chave, Valor valor){
+    noh_HT *p;
+    int h = hash(chave, M);
+    p = ht[h];
+    while (p != NULL && strcmp(p->chave, chave)){
+        p = P->prox;
+    }
+    p->valor = valor;
+}
+
 // Função que deleta um noh a partir da sua chave
 void delete_HT(Chave chave){
     noh_HT *p, *aux;
@@ -127,27 +138,53 @@ int main(int argc, char const *argv[]){
         scanf("%c", &opcao);
 
         switch (opcao){
-        case I: // Inserção
+        case "I": // Inserção
             scanf("%c", &chave);
             scanf("%d", &valor);
 
-            // Pesquiso, se não tiver presente na tabela coloco, senão apresento msg de erro           
+            // Pesquiso, se não tiver presente na tabela coloco, senão apresento msg de erro        
+            Valor flag = search_HT(chave);
+            if (flag == 0){
+                insert_HT(chave,valor);
+            }else{
+                printf("Contatinho ja inserido\n");
+            }        
             break;
-        case P: // Pesquisa
+        case "P": // Pesquisa
             scanf("%c", &chave);
+
             // Pesquiso, se encontrou msg de encontrou, senão erro.
+            Valor flag = search_HT(chave);
+            if(flag == 0){
+                printf("Contatinho nao encontrado\n");
+            }else{
+                printf("Contatinho encontrado: telefone %d\n",flag);
+            }
             break;
-        case R: // Remoção
+        case "R": // Remoção
             scanf("%c", &chave);
-            //  Pesquiso, se encontrou removo, senão erro;         
+            //  Pesquiso, se encontrou removo, senão erro;
+            Valor flag = search_HT(chave);
+            if(flag == 0){
+                printf("Operacao invalida: contatinho nao encontrado\n");
+            }else{
+                printf("Contatinho encontrado: telefone %d\n",flag);
+            }         
             break;
-        case A: // Alteração
+        case "A": // Alteração
             scanf("%c", &chave);
             scanf("%d", &valor);
             // Pesquiso, se encontrou eu altero o valor, senão erro;
+            Valor flag = search_HT(chave);
+            if(flag == 0){
+                printf("Operacao invalida: contatinho nao encontrado\n");
+            }else{
+                change_HT(chave,valor);
+            } 
             break;
         case 0: // Sair 
-            // deleto a hash table e return 0;
+            free_HT();
+            return 0;
             break;
         }
     } while (opcao != 0);
