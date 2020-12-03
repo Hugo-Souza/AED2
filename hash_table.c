@@ -17,11 +17,11 @@ void *mallocSafe(unsigned nbytes){
 
 int hash(Chave chave, int M){
     int i, h = 0;
-    int primo = 127;
+    int primo = 577;
     for(i = 0; chave[i] != '\0'; i++){
         h = (h * primo + chave[i]) % M;
     }
-    return h;
+    return abs(h);
 }
 
 struct celTS{
@@ -127,10 +127,12 @@ int main(int argc, char const *argv[]){
     do{
         scanf("%s",op);
         
+        
         if(strcmp(op,"I")==0){
 
             scanf("%s",nome);
             scanf("%d",&num);
+            
 
             if(stSearch(nome)==0){
                 stInsert(nome,num);
@@ -145,14 +147,14 @@ int main(int argc, char const *argv[]){
             if(stSearch(nome)==0){
                 printf("Contatinho nao encontrado\n");
             }else{
-                printf("Contatinho encontrado: telefone %d",stSearch(nome));
+                printf("Contatinho encontrado: telefone %d\n",stSearch(nome));
             }
             
         }else if(strcmp(op,"R")==0){
             scanf("%s",nome);
             
             if(stSearch(nome)==0){
-                printf("Operacao invalida: contatinho nao encontrado");
+                printf("Operacao invalida: contatinho nao encontrado\n");
             }else{
                 stDelete(nome);
             }
@@ -163,7 +165,7 @@ int main(int argc, char const *argv[]){
             scanf("%d",&num);
             
             if(stSearch(nome)==0){
-                printf("Operacao invalida: contatinho nao encontrado");
+                printf("Operacao invalida: contatinho nao encontrado\n");
             }else{
                 stChange(nome,num);
             }
