@@ -127,12 +127,10 @@ int main(int argc, char const *argv[]){
     do{
         scanf("%s",op);
         
-        
         if(strcmp(op,"I")==0){
 
             scanf("%s",nome);
             scanf("%d",&num);
-            
 
             if(stSearch(nome)==0){
                 stInsert(nome,num);
