@@ -85,7 +85,7 @@ void stChange(Chave chave, Valor valor){
 }
 
 void stDelete(Chave chave){
-    CelTS *p;
+    CelTS *p, *aux;
     int h = hash(chave, M);
     p = tab[h];
     if(p == NULL){
@@ -97,6 +97,16 @@ void stDelete(Chave chave){
         free(p);
         nChaves--;
         return;
+    }
+    while(p->prox != NULL && strcmp((p->prox)->chave, chave) != 0){
+        p = p->prox;
+    }
+    if(p->prox != NULL){
+        aux = p->prox;
+        p->prox = aux->prox;
+        free(aux->chave);
+        free(aux);
+        nChaves--;
     }
 }
 
@@ -135,7 +145,7 @@ int main(int argc, char const *argv[]){
             if(stSearch(nome)==0){
                 stInsert(nome,num);
             }else{
-                printf("Contatinho ja inserido\n");
+                printf("Contatinho ja inserido\r\n");
             }
             
         }else if(strcmp(op,"P")==0){
@@ -143,16 +153,16 @@ int main(int argc, char const *argv[]){
             scanf("%s",nome);
             
             if(stSearch(nome)==0){
-                printf("Contatinho nao encontrado\n");
+                printf("Contatinho nao encontrado\r\n");
             }else{
-                printf("Contatinho encontrado: telefone %d\n",stSearch(nome));
+                printf("Contatinho encontrado: telefone %d\r\n",stSearch(nome));
             }
             
         }else if(strcmp(op,"R")==0){
             scanf("%s",nome);
             
             if(stSearch(nome)==0){
-                printf("Operacao invalida: contatinho nao encontrado\n");
+                printf("Operacao invalida: contatinho nao encontrado\r\n");
             }else{
                 stDelete(nome);
             }
@@ -163,7 +173,7 @@ int main(int argc, char const *argv[]){
             scanf("%d",&num);
             
             if(stSearch(nome)==0){
-                printf("Operacao invalida: contatinho nao encontrado\n");
+                printf("Operacao invalida: contatinho nao encontrado\r\n");
             }else{
                 stChange(nome,num);
             }
