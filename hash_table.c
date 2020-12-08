@@ -163,7 +163,7 @@ void stFree(){
 
 // Programa principal - Tabela hash como agenda de contatos
 int main(int argc, char const *argv[]){
-    int tamanho = 1000000000; // Tamanho da tabela hash para armazenar os contatinhos 
+    int tamanho = 100000; // Tamanho da tabela hash para armazenar os contatinhos 
     char op[22]; // Vetor de char para armazenar a operação que será realizada na agenda de contatinhos
     char nome[22]; // Vetor de char para armazenar o nome(chave) do contatinho obtido da entrada de dados
     int num; // Variável para armazenar o número(valor) do contatinho obtido da entrada de dados
