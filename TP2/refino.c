@@ -56,6 +56,28 @@ void mergeSortI(double v[], int n){
     }
 }
 
+void ordenaMatriz(double **v, int n){
+    double linha[n];
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+           linha[j]=v[i][j];
+        }
+        mergeSortI(linha,n);
+        for (int j = 0; j < n; j++){
+           v[i][j]=linha[j];
+        }
+    }
+}
+
+int verificaOutliers(double **v, int n, int k, double limiar){
+    int qtd_outliers = 0;
+    for (int i = 0; i < n; i++){
+       if(v[i][k+1] > limiar){
+           qtd_outliers++;
+       }
+    }
+    return qtd_outliers;
+}
 
 
 // Programa principal
@@ -82,43 +104,16 @@ int main(int argc, char const *argv[]){
     }
     fclose(entrada);
 
-    double linha[n];
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            printf("%.2lf ",v[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n\n\n");
     
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-           linha[j]=v[i][j];
-        }
-        mergeSortI(linha,n);
-        for (int j = 0; j < n; j++){
-           v[i][j]=linha[j];
-        }
-    }
+    
+    ordenaMatriz(v,n);
 
-// Aqui eu ja tenho a matriz ordenada
 
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            printf("%.2lf ",v[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n\n\n");
-    int qtd_outliers = 0;
+    
 
-    for (int i = 0; i < n; i++){
-       if(v[i][k+1] > limiar){
-           qtd_outliers++;
-       }
-    }
+    
 
-    printf("%d",qtd_outliers);
+    printf("%d",verificaOutliers(v,n,k,limiar));
 
     for (i = 0; i < n; i++)
         free(v[i]);
