@@ -11,7 +11,7 @@ Engenharia da computação
 #define MAX 100
 
 // Procedimento de intercalar vetor utilizado no método de mergeSort
-void intercala(double v[], double p, double q, double r){
+void intercala(double v[], int p, int q, int r){
     int i, j , k, tam;
     i = p;
     j = q;
@@ -40,7 +40,7 @@ void intercala(double v[], double p, double q, double r){
 }
 
 // Procedimento de ordenação - mergeSorte iterativo
-void mergeSortI(double v[], int n){
+void mergeSortI(double *v, int n){
     int b = 1;
     while(b < n){
         int p = 0;
@@ -57,16 +57,11 @@ void mergeSortI(double v[], int n){
 }
 
 void ordenaMatriz(double **v, int n){
-    double linha[n];
-    for (int i = 0; i < n; i++){
+   
+        
         for (int j = 0; j < n; j++){
-           linha[j]=v[i][j];
+           mergeSortI(v[j],n);
         }
-        mergeSortI(linha,n);
-        for (int j = 0; j < n; j++){
-           v[i][j]=linha[j];
-        }
-    }
 }
 
 int verificaOutliers(double **v, int n, int k, double limiar){
@@ -79,16 +74,8 @@ int verificaOutliers(double **v, int n, int k, double limiar){
     return qtd_outliers;
 }
 
-
-// Programa principal
-int main(int argc, char const *argv[]){
-    
-    char file_name[MAX];
-    double **v, limiar;
-    int n, k, i, j;
+void obtemMatriz(char file_name[MAX], double **v, int n, int k, double limiar){
     FILE *entrada;
-
-    scanf("%s", file_name);
     entrada = fopen(file_name, "r");
     if (entrada == NULL){
         printf("\nNão encontrei o arquivo!\n");
@@ -96,28 +83,39 @@ int main(int argc, char const *argv[]){
     }
     fscanf(entrada, "%d %d %lf", &n, &k, &limiar);
     v = (double **)malloc(n * sizeof(double *));
-    for (i = 0; i < n; i++){
+    for (int i = 0; i < n; i++){
         v[i] = (double *)malloc(n * sizeof(double));
-        for (j = 0; j < n; j++){
+        for (int j = 0; j < n; j++){
             fscanf(entrada, "%lf", &v[i][j]);
         } 
     }
     fclose(entrada);
+}
 
+void liberaMatriz(double **v, int n){
+    for (int i = 0; i < n; i++)
+        free(v[i]);
+    free(v);
+}
+
+
+// Programa principal
+int main(int argc, char const *argv[]){
+    
+    char file_name[MAX];
+    double **v, limiar;
+    int n, k;
+    
+
+    scanf("%s", file_name);
+    obtemMatriz(file_name,v,n,k,limiar);
     
     
     ordenaMatriz(v,n);
 
-
-    
-
-    
-
     printf("%d",verificaOutliers(v,n,k,limiar));
 
-    for (i = 0; i < n; i++)
-        free(v[i]);
-    free(v);
+    liberaMatriz(v,n);
 
     return 0;
     
