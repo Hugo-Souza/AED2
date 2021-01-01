@@ -40,7 +40,7 @@ Grafo inicializaGrafo(int n){
 }
 
 // Procedimento de inserção de um arco v-w em um grafo G. Caso já exista este arco, não faz nada
-void insereArcoGrafo(Grafo G, int v, int w){
+void insereArcoGrafo(Grafo G, int v, int w, int c){
     Noh *p;
     for(p = G->A[v]; p != NULL; p = p->prox){
         if(p->rotulo == w){
@@ -49,6 +49,7 @@ void insereArcoGrafo(Grafo G, int v, int w){
     }
     p = malloc(sizeof(Noh));
     p->rotulo = w;
+    p->custo = c;
     p->prox = G->A[v];
     G->A[v] = p;
     G->m++;
@@ -194,9 +195,10 @@ void Dijkstra(Grafo G, int origem, int *dist, int *pred){
 
 int main(int argc, char const *argv[]){
     int vertices, arestas;
-    int A, B, W;
+    int A, B, W; //A = , B = , W = peso
     Grafo G;
 
+    
     G = inicializaGrafo(vertices);
 
     
